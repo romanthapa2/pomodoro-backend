@@ -1,8 +1,10 @@
+import { Application } from "express";
+
 require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
 
-const app = express();
+const app:Application = express();
 app.use(
   cors({
     origin: process.env.CORS,
@@ -14,4 +16,4 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-module.exports = app;
+export default app;
