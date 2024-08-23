@@ -1,6 +1,5 @@
-import { Application } from "express";
-
 require('dotenv').config();
+import { Application } from "express";
 const express = require("express");
 const cors = require("cors");
 
@@ -16,4 +15,4 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-export default app;
+module.exports = app;
