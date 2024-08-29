@@ -1,6 +1,7 @@
-require('dotenv').config();
-const app=require('./app')
-const connectMongoDB=require('./db/db.index.ts')
+import dotenv from "dotenv"
+dotenv.config();
+import app from './app'
+import connectMongoDB from "./db/db.index"
 
 const port=process.env.PORT;
 

@@ -1,15 +1,16 @@
-class apiResponse {
+class ApiResponse<T> {
     statusCode: number;
-    data: object[];
+    data: T;
     message: string;
     success: boolean;
-
-    constructor(statusCode: number, data: object[], message: string = "Success") {
-        this.statusCode = statusCode;
-        this.data = data;
-        this.message = message;
-        this.success = statusCode < 400;
+  
+    constructor(statusCode: number, data: T, message: string = "Success") {
+      this.statusCode = statusCode;
+      this.data = data;
+      this.message = message;
+      this.success = statusCode < 400;
     }
-}
-
-export default apiResponse;
+  }
+  
+  export default ApiResponse;
+  

@@ -1,10 +1,10 @@
-const express = require("express");
-const {registerUser, loginUser} = require("../controller/user.controller.js");
-const {body,validationResult} = require("express-validator");
-const ApiError = require("../utils/apiError.utils.js")
-import { Request, Response,NextFunction } from "express";
+import express, { Request, Response, NextFunction } from "express";
+import userController from "../controllers/user.controller";
+import { body, validationResult } from "express-validator";
+import ApiError from "../utils/apiError.utils";
 
 const router = express.Router();
+const { registerUser, loginUser } = userController;
 
 const validateRegister = [
   body('name').trim()
@@ -20,7 +20,7 @@ validateRegister,
 (req:Request,res:Response,next:NextFunction)=>{
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    throw new ApiError(400, errors.array().map((err : {msg:String}) => err.msg))
+    throw new ApiError(400, errors.array().map((err : {msg:String}) => err.msg).join(", "))
   }
   next();
 },
@@ -29,4 +29,4 @@ registerUser
 
 router.route("/login").post(loginUser)
 
-module.exports = router;
+export default router;

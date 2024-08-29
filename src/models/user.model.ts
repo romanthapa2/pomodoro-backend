@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema, Model } from "mongoose";
-const bcrypt =require('bcrypt')
-const jwt = require("jsonwebtoken")
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export interface IUser {
   name: string;
@@ -51,4 +51,4 @@ userSchema.methods.generateAccessToken = async function (): Promise<string> {
 
 
 const User: Model<IUserDocument> = mongoose.model<IUserDocument>("User", userSchema);
-module.exports=User;
+export default User;

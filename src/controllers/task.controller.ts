@@ -1,7 +1,7 @@
-const ApiError = require("../utils/apiError.utils.js");
-const ApiResponse = require("../utils/apiResponse.utils.js");
-const asyncHandler = require("../utils/asyncHandler.utils");
-const Task = require("../models/task.model.js");
+import ApiError from "../utils/apiError.utils";
+import ApiResponse from "../utils/apiResponse.utils";
+import asyncHandler from "../utils/asyncHandler.utils";
+import Task from "../models/task.model";
 import { Request, Response } from "express";
 
 const createTask = asyncHandler(async (req: Request, res: Response) => {
@@ -18,4 +18,4 @@ const createTask = asyncHandler(async (req: Request, res: Response) => {
     .json(new ApiResponse(200, { task: newTask }, "Task created successfully"));
 });
 
-module.exports = createTask;
+export default createTask

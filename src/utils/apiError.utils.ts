@@ -24,4 +24,4 @@ class apiError extends Error {
     }
 }
 
-export default apiError;
+export default apiError

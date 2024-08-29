@@ -1,7 +1,7 @@
-const ApiError = require("../utils/apiError.utils.js");
-const ApiResponse = require("../utils/apiResponse.utils.js");
-const asyncHandler = require("../utils/asyncHandler.utils");
-const User = require("../models/user.model.js");
+import ApiError from "../utils/apiError.utils";
+import ApiResponse from "../utils/apiResponse.utils";
+import asyncHandler from "../utils/asyncHandler.utils";
+import User from "../models/user.model";
 import { Request, Response } from "express";
 
 const registerUser = asyncHandler(async (req: Request, res: Response) => {
@@ -24,7 +24,7 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
     throw new ApiError(500, "Something went wrong while registering the User");
   }
 
-  const accessToken = await createdUser.generateAccessToken(user._id);
+  const accessToken = await createdUser.generateAccessToken();
 
   const options = {
     httpOnly: true,
@@ -60,7 +60,7 @@ const loginUser = asyncHandler(async (req: Request, res: Response) => {
 
   const loggedInUser = await User.findById(user._id).select("-password");
 
-  const accessToken = await user.generateAccessToken(user._id);
+  const accessToken = await user.generateAccessToken();
 
   const options = {
     httpOnly: true,
@@ -79,4 +79,4 @@ const loginUser = asyncHandler(async (req: Request, res: Response) => {
     );
 });
 
-module.exports = { registerUser, loginUser };
+export default {registerUser, loginUser}

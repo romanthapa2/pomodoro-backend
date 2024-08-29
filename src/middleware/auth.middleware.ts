@@ -1,17 +1,19 @@
-const jwt_secret = process.env.ACCSS_TOKEN_SECRET_KEY;
-const jwt = require("jsonwebtoken");
-const ApiError = require("../utils/apiError.utils.js");
-const User = require("../models/user.model.js");
-const asyncHandler = require("../utils/asyncHandler.utils.js");
-import { Request, Response, NextFunction } from "express";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import ApiError from "../utils/apiError.utils";
+import User from "../models/user.model";
+import asyncHandler from "../utils/asyncHandler.utils";
+import { RequestHandler } from "express";
 
+const jwt_secret = process.env.ACCSS_TOKEN_SECRET_KEY as string; // Ensure that this environment variable is a string
+
+import { Request, Response, NextFunction } from "express";
 interface DecodedToken {
     _id: string;
     iat?: number;  // issued at
     exp?: number;  // expiration time
   }
 
-const verifyUserByJWT = asyncHandler(async (req: Request, _:Response, next: NextFunction) => {
+export const verifyUserByJWT: RequestHandler = asyncHandler(async (req: Request, _:Response, next: NextFunction) => {
   try {
     const token = req.cookies?.accessToken || req.header("auth-token")?.replace("Bearer ", "");
     if (!token) {
@@ -30,13 +32,13 @@ const verifyUserByJWT = asyncHandler(async (req: Request, _:Response, next: Next
 
 });
 
-const verifyAdminByJwt = asyncHandler(async (req:Request, _: Response, next:NextFunction) => {
+export const verifyAdminByJwt: RequestHandler = asyncHandler(async (req:Request, _: Response, next:NextFunction) => {
   try {
     const token = req.cookies?.accessToken || req.header("auth-token")?.replace("Bearer ", "");
     if (!token) {
       throw new ApiError(401, "Please authenticate using a valid user");
     }
-    const decodedToken = jwt.verify(token, jwt_secret);
+    const decodedToken = jwt.verify(token, jwt_secret) as JwtPayload;
     const user = await User.findById(decodedToken._id).select("-password");
     if (!user || user.role !== "admin") {
       throw new ApiError(403, "Unauthorized to access this route");
@@ -47,6 +49,3 @@ const verifyAdminByJwt = asyncHandler(async (req:Request, _: Response, next:Next
     throw new ApiError(401, error instanceof Error ? error.message : "Invalid access token");
   }
 });
-
-module.exports = verifyUserByJWT;
-module.exports = verifyAdminByJwt;
