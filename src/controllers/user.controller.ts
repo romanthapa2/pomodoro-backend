@@ -2,9 +2,9 @@ const ApiError = require("../utils/apiError.utils.js");
 const ApiResponse = require("../utils/apiResponse.utils.js");
 const asyncHandler = require("../utils/asyncHandler.utils");
 const User = require("../models/user.model.js");
-import { Request,Response } from "express";
+import { Request, Response } from "express";
 
-const registerUser = asyncHandler(async (req:Request, res:Response) => {
+const registerUser = asyncHandler(async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
 
   const existedUser = await User.findOne({ email: email });
@@ -20,7 +20,6 @@ const registerUser = asyncHandler(async (req:Request, res:Response) => {
   });
   const createdUser = await User.findById(user._id).select("-password -email");
 
-
   if (!createdUser) {
     throw new ApiError(500, "Something went wrong while registering the User");
   }
@@ -29,18 +28,22 @@ const registerUser = asyncHandler(async (req:Request, res:Response) => {
 
   const options = {
     httpOnly: true,
-    secure: true
-}
+    secure: true,
+  };
 
   return res
     .status(200)
     .cookie("accessToken", accessToken, options)
-    .json(new ApiResponse(200,
-         { user: createdUser, accessToken  },
-          "User registered Successfully"));
+    .json(
+      new ApiResponse(
+        200,
+        { user: createdUser, accessToken },
+        "User registered Successfully"
+      )
+    );
 });
 
-const loginUser = asyncHandler(async (req:Request, res:Response) => {
+const loginUser = asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email: email });
@@ -61,19 +64,19 @@ const loginUser = asyncHandler(async (req:Request, res:Response) => {
 
   const options = {
     httpOnly: true,
-    secure: true
-  }
+    secure: true,
+  };
 
-  return res.status(200)
-    .cookie("accessToken", accessToken , options)
+  return res
+    .status(200)
+    .cookie("accessToken", accessToken, options)
     .json(
       new ApiResponse(
         200,
         { user: loggedInUser, accessToken },
         "User logged in Successfully"
       )
-    )
-
+    );
 });
 
 module.exports = { registerUser, loginUser };
