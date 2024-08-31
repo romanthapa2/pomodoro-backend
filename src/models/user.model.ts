@@ -3,7 +3,6 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export interface IUser {
-  name: string;
   email: string;
   password: string;
   role: "user" | "admin" | "guest";
@@ -18,7 +17,6 @@ export interface IUserDocument extends IUser, Document {
 
 
 const userSchema: Schema<IUserDocument> = new Schema({
-  name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   role: { type: String, default: "guest", enum: ["user", "admin", "guest"] },
@@ -39,6 +37,7 @@ userSchema.methods.isPasswordCorrect = async function (password: string): Promis
 };
 
 
+// accesstokensecretkey env ma nahuda pani db ma save vayo
 userSchema.methods.generateAccessToken = async function (): Promise<string> {
   return jwt.sign(
     { _id: this._id },

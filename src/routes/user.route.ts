@@ -7,8 +7,6 @@ const router = express.Router();
 const { registerUser, loginUser } = userController;
 
 const validateRegister = [
-  body('name').trim()
-    .isLength({ min: 5 }).withMessage('Username must be at least 5 characters long'),
   body('email')
     .isEmail().normalizeEmail().withMessage('Email is not valid'),
   body('password').trim()

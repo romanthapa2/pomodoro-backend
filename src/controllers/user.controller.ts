@@ -4,8 +4,9 @@ import asyncHandler from "../utils/asyncHandler.utils";
 import User from "../models/user.model";
 import { Request, Response } from "express";
 
+
 const registerUser = asyncHandler(async (req: Request, res: Response) => {
-  const { name, email, password } = req.body;
+  const { email, password } = req.body;
 
   const existedUser = await User.findOne({ email: email });
 
@@ -14,7 +15,6 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
   }
 
   const user = await User.create({
-    name,
     email,
     password,
   });

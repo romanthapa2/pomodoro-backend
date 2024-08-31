@@ -11,7 +11,7 @@
   "main": "index.ts",
   "type": "module",
   "scripts": {
-    "start": "tsx src/index.ts",
+    "start": "nodemon --exec tsx src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

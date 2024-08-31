@@ -9,8 +9,8 @@ const jwt_secret = process.env.ACCSS_TOKEN_SECRET_KEY as string; // Ensure that 
 import { Request, Response, NextFunction } from "express";
 interface DecodedToken {
     _id: string;
-    iat?: number;  // issued at
-    exp?: number;  // expiration time
+    iat?: number;
+    exp?: number;
   }
 
 export const verifyUserByJWT: RequestHandler = asyncHandler(async (req: Request, _:Response, next: NextFunction) => {
