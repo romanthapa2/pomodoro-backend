@@ -7,7 +7,6 @@ import { body, validationResult } from "express-validator";
 const router = express.Router();
 
 const validateTask = [
-  body("time").notEmpty().withMessage("time must not be empty"),
   body("task").notEmpty().withMessage("task must not be empty"),
   body("total_minutes")
     .notEmpty()
