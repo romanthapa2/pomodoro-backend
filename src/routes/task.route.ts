@@ -3,6 +3,7 @@ import ApiError from "../utils/apiError.utils";
 import {createTask}  from "../controllers/task.controller";
 import { verifyAdminByJwt, verifyUserByJWT } from '../middleware/auth.middleware';
 import { body, validationResult } from "express-validator";
+import { getTasks } from "../controllers/task.controller";
 
 const router = express.Router();
 
@@ -12,6 +13,7 @@ const validateTask = [
     .notEmpty()
     .withMessage("total minutes must not be empty"),
 ];
+
 
 router.post(
   "/tasks",
@@ -29,5 +31,8 @@ verifyUserByJWT,
   },
   createTask
 );
+
+
+router.get("/task",verifyUserByJWT,getTasks)
 
 export default router

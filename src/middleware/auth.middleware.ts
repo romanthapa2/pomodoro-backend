@@ -22,7 +22,7 @@ export const verifyUserByJWT: RequestHandler = asyncHandler(
       if (!token) {
         throw new ApiError(401, "please authenticate using a valid user");
       }
-      console.log(jwt_secret)
+
       const decodedToken = jwt.verify(token, jwt_secret) as DecodedToken;
       const user = await User.findById(decodedToken._id).select("-password");
       if (!user) {
