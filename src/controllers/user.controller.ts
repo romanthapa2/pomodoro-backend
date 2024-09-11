@@ -5,7 +5,7 @@ import User from "../models/user.model";
 import { Request, Response } from "express";
 
 
-const registerUser = asyncHandler(async (req: Request, res: Response) => {
+const signup = asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   const existedUser = await User.findOne({ email: email });
@@ -81,4 +81,4 @@ const loginUser = asyncHandler(async (req: Request, res: Response) => {
     );
 });
 
-export default {registerUser, loginUser}
+export default {signup, loginUser}

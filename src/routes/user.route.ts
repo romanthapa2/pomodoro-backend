@@ -4,7 +4,7 @@ import { body, validationResult } from "express-validator";
 import ApiError from "../utils/apiError.utils";
 
 const router = express.Router();
-const { registerUser, loginUser } = userController;
+const { signup, loginUser } = userController;
 
 const validateRegister = [
   body('email')
@@ -13,7 +13,7 @@ const validateRegister = [
     .isLength({ min: 6 }).withMessage('Password must be at least 6 characters long')
 ];
 
-router.post("/register",
+router.post("/signup",
 validateRegister,
 (req:Request,res:Response,next:NextFunction)=>{
   const errors = validationResult(req);
@@ -22,7 +22,7 @@ validateRegister,
   }
   next();
 },
-registerUser
+signup
 )
 
 router.route("/login").post(loginUser)
