@@ -1,4 +1,4 @@
-import ApiError from "../utils/apiError.utils";
+import {ApiError} from "../utils/apiError.utils";
 import ApiResponse from "../utils/apiResponse.utils";
 import asyncHandler from "../utils/asyncHandler.utils";
 import Task from "../models/task.model";

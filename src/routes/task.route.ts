@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction } from "express";
-import ApiError from "../utils/apiError.utils";
+import {ApiError} from "../utils/apiError.utils";
 import {createTask}  from "../controllers/task.controller";
 import { verifyAdminByJwt, verifyUserByJWT } from '../middleware/auth.middleware';
 import { body, validationResult } from "express-validator";

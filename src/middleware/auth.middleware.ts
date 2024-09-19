@@ -1,6 +1,6 @@
 const jwt_secret = process.env.ACCSS_TOKEN_SECRET_KEY as string || "romanthapa"; 
 import jwt, { JwtPayload } from "jsonwebtoken";
-import ApiError from "../utils/apiError.utils";
+import {ApiError} from "../utils/apiError.utils";
 import User from "../models/user.model";
 import asyncHandler from "../utils/asyncHandler.utils";
 import { RequestHandler } from "express";

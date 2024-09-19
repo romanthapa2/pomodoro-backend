@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import userController from "../controllers/user.controller";
 import { body, validationResult } from "express-validator";
-import ApiError from "../utils/apiError.utils";
+import {ApiError} from "../utils/apiError.utils";
 
 const router = express.Router();
 const { signup, loginUser } = userController;
