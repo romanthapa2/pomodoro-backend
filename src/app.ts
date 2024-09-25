@@ -11,7 +11,7 @@ import { ApiError } from './utils/apiError.utils';
 const app: Application = express();
 app.use('*',
   cors({
-    origin: "http://localhost:5173" || "https://pomodoro-backend-dkty.onrender.com/",
+    origin: "http://localhost:5173" || "https://pomodoro-with-music.vercel.app/",
     credentials: true,
   })
 )
