@@ -1,18 +1,21 @@
-import mongoose, { Schema, Document,Types} from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
-interface ITask extends Document {
-  date: Date;
-  user:Types.ObjectId;
-  task: string;
-  total_minutes: number;
+export interface ITask extends Document {
+  user: mongoose.Schema.Types.ObjectId;
+  title: string;
+  description?: string;
+  createdAt: Date;
+  completed: boolean;
+  sessions: mongoose.Schema.Types.ObjectId[];
 }
 
-const taskSchema = new Schema<ITask>({
-  date: { type: Date, default: Date.now },
-  user: { type: Schema.Types.ObjectId, ref: "User", required: true},
-  task: { type: String, required: true },
-  total_minutes: { type: Number, required: true },
+const TaskSchema = new Schema<ITask>({
+  user: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  title: { type: String, required: true },
+  description: { type: String },
+  createdAt: { type: Date, default: Date.now },
+  completed: { type: Boolean, default: false },
+  sessions: [{ type: Schema.Types.ObjectId, ref: "Session" }],
 });
 
-const Task = mongoose.model<ITask>("task", taskSchema);
-export default Task
+export default mongoose.model<ITask>("Task", TaskSchema);

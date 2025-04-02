@@ -2,29 +2,59 @@ import mongoose, { Document, Schema, Model } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+// export interface IUser {
+//   email: string;
+//   password: string;
+//   role: "user" | "admin" | "guest";
+//   date?: Date;
+// }
+
+// Extend the IUser interface with Document to include Mongoose document properties and methods
+
+
+
+// const UserSchema: Schema<IUserDocument> = new Schema({
+//   email: { type: String, required: true, unique: true },
+//   password: { type: String, required: true },
+//   role: { type: String, default: "guest", enum: ["user", "admin", "guest"] },
+//   date: { type: Date, default: Date.now },
+// });
+
 export interface IUser {
   email: string;
   password: string;
-  role: "user" | "admin" | "guest";
-  date?: Date;
+  username?: string;
+  settings: {
+    pomodoroDuration: number;
+    shortBreak: number;
+    longBreak: number;
+    longBreakInterval: number;
+  };
+  createdAt: Date;
 }
 
-// Extend the IUser interface with Document to include Mongoose document properties and methods
 export interface IUserDocument extends IUser, Document {
   isPasswordCorrect(password: string): Promise<boolean>;
   generateAccessToken(): Promise<string>;
 }
 
-
-const userSchema: Schema<IUserDocument> = new Schema({
+const UserSchema = new Schema<IUserDocument>({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  role: { type: String, default: "guest", enum: ["user", "admin", "guest"] },
-  date: { type: Date, default: Date.now },
+  username: { type: String },
+  settings: {
+    pomodoroDuration: { type: Number, default: 25 },
+    shortBreak: { type: Number, default: 5 },
+    longBreak: { type: Number, default: 15 },
+    longBreakInterval: { type: Number, default: 4 },
+  },
+  createdAt: { type: Date, default: Date.now },
 });
 
 
-userSchema.pre<IUserDocument>("save", async function (next) {
+
+
+UserSchema.pre<IUserDocument>("save", async function (next) {
   if (!this.isModified("password")) return next();
 
   this.password = await bcrypt.hash(this.password, 10);
@@ -32,13 +62,13 @@ userSchema.pre<IUserDocument>("save", async function (next) {
 });
 
 
-userSchema.methods.isPasswordCorrect = async function (password: string): Promise<boolean> {
+UserSchema.methods.isPasswordCorrect = async function (password: string): Promise<boolean> {
   return await bcrypt.compare(password, this.password);
 };
 
 
 // accesstokensecretkey env ma nahuda pani db ma save vayo
-userSchema.methods.generateAccessToken = async function (): Promise<string> {
+UserSchema.methods.generateAccessToken = async function (): Promise<string> {
   return jwt.sign(
     { _id: this._id },
     process.env.ACCSS_TOKEN_SECRET_KEY as string,
@@ -48,6 +78,4 @@ userSchema.methods.generateAccessToken = async function (): Promise<string> {
   );
 };
 
-
-const User: Model<IUserDocument> = mongoose.model<IUserDocument>("User", userSchema);
-export default User;
+export default mongoose.model<IUserDocument>("User", UserSchema);
